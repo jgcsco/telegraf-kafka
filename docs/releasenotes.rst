@@ -2,6 +2,13 @@ Release notes
 #############
 
 ==============
+Version 1.1.16
+==============
+
+- feature: Spinner during update / rebuild of KVstore collections within the management of embedded alerting UI
+- feature: Improved error handling in management of embedded alerting UI
+
+==============
 Version 1.1.15
 ==============
 
