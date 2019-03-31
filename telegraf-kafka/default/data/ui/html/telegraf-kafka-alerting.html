@@ -284,7 +284,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to modify the maintenance mode.<br /><br />
@@ -307,7 +307,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to flush the KVstore collection.<br /><br />
@@ -330,7 +330,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
@@ -353,7 +353,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
@@ -380,7 +380,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops!</h3>
                 </div>
                 <div class="modal-body">
                     <p>Sorry but it looks like an error occurred while loading the current maintenance mode status.
@@ -4337,7 +4337,7 @@ require([
 
             $("#btn_modal_update_collection").click(function() {
 
-                console.log("Start collection update");
+                //console.log("Start collection update");
 
                 // Define the query
                 var searchQuery = "| savedsearch \"Update Kafka topics inventory\"";
@@ -4579,12 +4579,12 @@ require([
                             return;
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
 
-                     });
+                    });
 
                 });
 
@@ -4652,7 +4652,7 @@ require([
                             search_kafka_topics_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -4720,7 +4720,7 @@ require([
                             search_kafka_topics_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -4752,7 +4752,7 @@ require([
 
             $("#btn_modal_update_collection").click(function() {
 
-                console.log("Start collection update");
+                //console.log("Start collection update");
 
                 // Define the query
                 var searchQuery = "| savedsearch \"Update Kafka Infrastructure components inventory\"";
@@ -5012,12 +5012,12 @@ require([
                             return;
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
 
-                     });
+                    });
 
                 });
 
@@ -5094,7 +5094,7 @@ require([
                             search_kafka_infra_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -5171,7 +5171,7 @@ require([
                             search_kafka_infra_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -5260,7 +5260,7 @@ require([
                                 search_kafka_infra_search_label.startSearch();
                             },
                             error: function(xhr, textStatus, error) {
-                                message="Error Updating!" + xhr + textStatus + error;
+                                message = "Error Updating!" + xhr + textStatus + error;
                                 $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                                 $("#modal_update_collection_failure_return").modal()
                             }
@@ -5292,7 +5292,7 @@ require([
 
             $("#btn_modal_update_collection").click(function() {
 
-                console.log("Start collection update");
+                //console.log("Start collection update");
 
                 // Define the query
                 var searchQuery = "| savedsearch \"Update Kafka Infrastructure components inventory\"";
@@ -5552,12 +5552,12 @@ require([
                             return;
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
 
-                     });
+                    });
 
                 });
 
@@ -5637,7 +5637,7 @@ require([
                             search_kafka_infra_nodes_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -5717,7 +5717,7 @@ require([
                             search_kafka_infra_nodes_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -5806,7 +5806,7 @@ require([
                                 search_kafka_infra_nodes_search_label.startSearch();
                             },
                             error: function(xhr, textStatus, error) {
-                                message="Error Updating!" + xhr + textStatus + error;
+                                message = "Error Updating!" + xhr + textStatus + error;
                                 $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                                 $("#modal_update_collection_failure_return").modal()
                             }
@@ -5838,7 +5838,7 @@ require([
 
             $("#btn_modal_update_collection").click(function() {
 
-                console.log("Start collection update");
+                //console.log("Start collection update");
 
                 // Define the query
                 var searchQuery = "| savedsearch \"Update Kafka Burrow group consumers inventory\"";
@@ -6085,12 +6085,12 @@ require([
                             return;
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
 
-                     });
+                    });
 
                 });
 
@@ -6161,7 +6161,7 @@ require([
                             search_burrow_search_cluster.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6232,7 +6232,7 @@ require([
                             search_burrow_search_cluster.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6263,7 +6263,7 @@ require([
 
             $("#btn_modal_update_collection").click(function() {
 
-                console.log("Start collection update");
+                //console.log("Start collection update");
 
                 // Define the query
                 var searchQuery = "| savedsearch \"Update Kafka Connect tasks inventory\"";
@@ -6505,12 +6505,12 @@ require([
                             return;
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
 
-                     });
+                    });
 
                 });
 
@@ -6581,7 +6581,7 @@ require([
                             search_connect_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6652,7 +6652,7 @@ require([
                             search_connect_search_label.startSearch();
                         },
                         error: function(xhr, textStatus, error) {
-                            message="Error Updating!" + xhr + textStatus + error;
+                            message = "Error Updating!" + xhr + textStatus + error;
                             $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                             $("#modal_update_collection_failure_return").modal()
                         }
@@ -6735,7 +6735,7 @@ require([
                                 search_connect_search_label.startSearch();
                             },
                             error: function(xhr, textStatus, error) {
-                                message="Error Updating!" + xhr + textStatus + error;
+                                message = "Error Updating!" + xhr + textStatus + error;
                                 $("#modal_update_collection_failure_return").find('.modal-error-message p').text(message);
                                 $("#modal_update_collection_failure_return").modal()
                             }
