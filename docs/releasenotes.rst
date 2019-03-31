@@ -7,6 +7,8 @@ Version 1.1.16
 
 - feature: Spinner during update / rebuild of KVstore collections within the management of embedded alerting UI
 - feature: Improved error handling in management of embedded alerting UI
+- feature: Managed unprivileged user access to the UI, and handle errors due to lack of permission against the KVstore collections
+- feature: Post process searches for the maintenance mode collection
 
 ==============
 Version 1.1.15

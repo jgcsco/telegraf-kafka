@@ -173,7 +173,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode</h3>
                 </div>
                 <div class="modal-body">
-                    <p>Error: the selected date time is in the past, please select a relevant end date for the maintenance mode.
+                    <p><b>Invalid entry:</b> the selected date time is in the past, please select a valid end date for the maintenance mode.
                     </p>
                 </div>
 
@@ -195,7 +195,7 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Maintenance mode</h3>
                 </div>
                 <div class="modal-body">
-                    <p>Error: the date / time entries are empty or incorrect, please select a relevant end date for the maintenance mode.
+                    <p><b>Invalid entry:</b> the date / time entries are empty or incorrect, please select a valid end date for the maintenance mode.
                     </p>
                 </div>
 
@@ -276,6 +276,29 @@ styles in <div> tags, similar to Bootstrap's grid system.
         </div>
     </div>
 
+    <!-- Error or failure while attempting to enable or disable the maintenance mode -->
+    <div class="modal fade" id="modal_maintenance_mode_failure" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Sorry but it looks like an error occurred while attempting to modify the maintenance mode.<br /><br />
+                        <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-default pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Error or failure during KVstore collection flush -->
     <div class="modal fade" id="modal_update_collection_failure_flush" role="dialog">
         <div class="modal-dialog">
@@ -287,7 +310,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
                 </div>
                 <div class="modal-body">
-                    <p>Sorry but it looks like an error occurred while attempting to flush the KVstore collection, please review Splunk logs.<br /><br />
+                    <p>Sorry but it looks like an error occurred while attempting to flush the KVstore collection.<br /><br />
+                        <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.
                     </p>
                 </div>
 
@@ -309,7 +333,8 @@ styles in <div> tags, similar to Bootstrap's grid system.
                     <h3 style="color: indianred;"><span class="glyphicon glyphicon-lock"></span>Oops !!!</h3>
                 </div>
                 <div class="modal-body">
-                    <p>Sorry but it looks like an error occurred while running search for the collection update, please review Splunk logs.<br /><br />
+                    <p>Sorry but it looks like an error occurred while attempting to perform the KVstore collection update.<br /><br />
+                        <b>You might not have the permission to write to the collection</b>, or an unexpected failure was encountered.
                     </p>
                 </div>
 
@@ -1519,53 +1544,14 @@ require([
         // MAINTENANCE MODE
         //
 
-        var search_maintenance_state = new SearchManager({
-            "id": "search_maintenance_state",
+        var search_maintenance_mode_mainsearch = new SearchManager({
+            "id": "search_maintenance_mode_mainsearch",
             "sample_ratio": 1,
-            "search": "| savedsearch \"Verify Kafka alerting maintenance status\" | fields maintenance_mode | eval maintenance=if(match(maintenance_mode, \"enabled\"), 1, 0), maintenance_mode=upper(maintenance_mode) | rangemap field=maintenance low=0-0 severe=1-1 default=severe",
+            "search": "| inputlookup kafka_alerting_maintenance",
             "status_buckets": 0,
             "earliest_time": "-24h@h",
             "cancelOnUnload": true,
             "latest_time": "now",
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {},
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var search_maintenance_state_reactivation = new SearchManager({
-            "id": "search_maintenance_state_reactivation",
-            "sample_ratio": 1,
-            "search": "| inputlookup kafka_alerting_maintenance | eval maintenance_mode_end=strftime(maintenance_mode_end, \"%d %b %H:%M\") | fields maintenance_mode_end",
-            "status_buckets": 0,
-            "earliest_time": "-24h@h",
-            "cancelOnUnload": true,
-            "latest_time": "now",
-            "app": utils.getCurrentApp(),
-            "auto_cancel": 90,
-            "preview": true,
-            "tokenDependencies": {
-                "depends": "$maintenance_enabled$",
-                "rejects": ""
-            },
-            "runWhenTimeIsUndefined": false
-        }, {
-            tokens: true,
-            tokenNamespace: "submitted"
-        });
-
-        var search_maintenance_mode_state = new SearchManager({
-            "id": "search_maintenance_mode_state",
-            "earliest_time": "$earliest$",
-            "sample_ratio": null,
-            "cancelOnUnload": true,
-            "latest_time": "$latest$",
-            "search": "| inputlookup kafka_alerting_maintenance | fields maintenance_mode",
-            "status_buckets": 0,
             "app": utils.getCurrentApp(),
             "auto_cancel": 90,
             "preview": true,
@@ -1577,7 +1563,7 @@ require([
         });
 
         new SearchEventHandler({
-            managerid: "search_maintenance_mode_state",
+            managerid: "search_maintenance_mode_mainsearch",
             event: "progress",
             conditions: [{
                     attr: "match",
@@ -1597,6 +1583,28 @@ require([
                     }]
                 }
             ]
+        });
+
+        var search_maintenance_state = new PostProcessManager({
+            "managerid": "search_maintenance_mode_mainsearch",
+            "id": "search_maintenance_state",
+            "search": "fields maintenance_mode | eval maintenance=if(match(maintenance_mode, \"enabled\"), 1, 0), maintenance_mode=upper(maintenance_mode) | rangemap field=maintenance low=0-0 severe=1-1 default=severe",
+            "tokenDependencies": {},
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
+        });
+
+        var search_maintenance_state_reactivation = new PostProcessManager({
+            "managerid": "search_maintenance_mode_mainsearch",
+            "id": "search_maintenance_state_reactivation",
+            "search": "eval maintenance_mode_end=strftime(maintenance_mode_end, \"%d %b %H:%M\") | fields maintenance_mode_end",
+            "tokenDependencies": {},
+            "runWhenTimeIsUndefined": false
+        }, {
+            tokens: true,
+            tokenNamespace: "submitted"
         });
 
         // end time maintenance mode
@@ -4181,17 +4189,34 @@ require([
                                     latest_time: "now"
                                 };
 
-                                // Run a oneshot search that returns the job's results
-                                service.oneshotSearch(
+                                // Update the collection
+                                service.search(
                                     searchQuery,
                                     searchParams,
-                                    function(err, results) {
-                                        // Update single
-                                        search_maintenance_state.startSearch();
-                                        search_maintenance_mode_state.startSearch();
-                                        // buttons states
-                                        document.getElementById('btn_press_disable_maintenance').disabled = false;
-                                        document.getElementById('btn_press_enable_maintenance').disabled = true;
+                                    function(err, job) {
+
+                                        // Poll the status of the search job
+                                        job.track({
+                                            period: 200
+                                        }, {
+                                            done: function(job) {
+                                                //console.log("Done!");
+
+                                                // Update single
+                                                search_maintenance_mode_mainsearch.startSearch();
+                                                search_maintenance_state.startSearch();
+                                                // buttons states
+                                                document.getElementById('btn_press_disable_maintenance').disabled = false;
+                                                document.getElementById('btn_press_enable_maintenance').disabled = true;
+                                            },
+                                            failed: function(job) {
+                                                $("#modal_maintenance_mode_failure").modal()
+                                            },
+                                            error: function(err) {
+                                                done(err);
+                                                $("#modal_maintenance_mode_failure").modal()
+                                            }
+                                        });
                                     }
                                 );
 
@@ -4232,19 +4257,34 @@ require([
                     latest_time: "now"
                 };
 
-                // Run a oneshot search that returns the job's results
-                service.oneshotSearch(
+                // Update the collection
+                service.search(
                     searchQuery,
                     searchParams,
-                    function(err, results) {
-                        // Update single
-                        search_maintenance_state.startSearch();
-                        search_maintenance_mode_state.startSearch();
+                    function(err, job) {
 
-                        // buttons states
-                        document.getElementById('btn_press_disable_maintenance').disabled = true;
-                        document.getElementById('btn_press_enable_maintenance').disabled = false;
+                        // Poll the status of the search job
+                        job.track({
+                            period: 200
+                        }, {
+                            done: function(job) {
+                                //console.log("Done!");
 
+                                // Update single
+                                search_maintenance_mode_mainsearch.startSearch();
+                                search_maintenance_state.startSearch();
+                                // buttons states
+                                document.getElementById('btn_press_disable_maintenance').disabled = true;
+                                document.getElementById('btn_press_enable_maintenance').disabled = false;
+                            },
+                            failed: function(job) {
+                                $("#modal_maintenance_mode_failure").modal()
+                            },
+                            error: function(err) {
+                                done(err);
+                                $("#modal_maintenance_mode_failure").modal()
+                            }
+                        });
                     }
                 );
             });
